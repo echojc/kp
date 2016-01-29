@@ -43,6 +43,12 @@ $ kp my-topic --json
 {"partition":3,"key":{"complex":"key"},"message":[42,"bits",{"of":"data"}]}
 ```
 
+Bulk load messages into a topic:
+
+```
+$ cat messages | kp my-topic --json
+```
+
 ## Dependencies
 
 This depends on bleeding edge
