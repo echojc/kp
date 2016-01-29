@@ -45,13 +45,13 @@ try:
                 # convert key and message back to json if object or array
                 key = parsed.get('key', None)
                 if type(key) == list or type(key) == dict:
-                    key = json.dumps(key)
+                    key = json.dumps(key, separators=(',',':'))
                 elif key != None:
                     key = str(key).encode('utf_8')
 
                 message = parsed.get('message', None)
                 if type(message) == list or type(message) == dict:
-                    message = json.dumps(message)
+                    message = json.dumps(message, separators=(',',':'))
                 elif message != None:
                     message = str(message).encode('utf_8')
 
