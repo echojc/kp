@@ -1,0 +1,67 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+# Installation
+# ------------
+#
+# This depends on cutting edge https://github.com/dpkp/kafka-python
+#
+# $ sudo apt-get install python-pip
+# $ git clone https://github.com/dpkp/kafka-python
+# $ pip install ./kafka-python
+
+from __future__ import print_function
+from argparse import ArgumentParser, RawTextHelpFormatter
+from kafka import KafkaProducer
+import sys
+import fileinput
+import json
+
+parser = ArgumentParser(description='Produce messages to Kafka. Supports a JSON input format for complex messages.', formatter_class=RawTextHelpFormatter)
+parser.add_argument('topic', help="topic to produce to")
+parser.add_argument('--brokers', help="comma separated list of brokers", default="localhost:9092")
+parser.add_argument('--json', action='store_true', help='parses input as JSON expecting {"partition":<int>,"key":<key>,"message":<message>}, all optional', default=False)
+args = parser.parse_args()
+
+if (args.topic == None):
+    parser.print_help()
+    sys.exit(1)
+
+brokers = args.brokers.split(',')
+producer = KafkaProducer(bootstrap_servers=brokers)
+
+try:
+    while True:
+        message = raw_input()
+
+        key = None
+        partition = 0
+
+        if args.json:
+            try:
+                parsed = json.loads(message)
+                partition = int(parsed.get('partition', 0))
+
+                # convert key and message back to json if object or array
+                key = parsed.get('key', None)
+                if type(key) == list or type(key) == dict:
+                    key = json.dumps(key)
+                elif key != None:
+                    key = str(key).encode('utf_8')
+
+                message = parsed.get('message', None)
+                if type(message) == list or type(message) == dict:
+                    message = json.dumps(message)
+                elif message != None:
+                    message = str(message).encode('utf_8')
+
+            except ValueError:
+                print('Skipping unparsable line:', message, file=sys.stderr)
+                continue
+
+        producer.send(args.topic, partition=partition, key=key, value=message)
+except EOFError:
+    pass
+finally:
+    producer.flush()
+    producer.close()
