@@ -23,10 +23,6 @@ parser.add_argument('--brokers', help="comma separated list of brokers", default
 parser.add_argument('--json', action='store_true', help='parses input as JSON expecting {"partition":<int>,"key":<key>,"message":<message>}, all optional', default=False)
 args = parser.parse_args()
 
-if (args.topic == None):
-    parser.print_help()
-    sys.exit(1)
-
 brokers = args.brokers.split(',')
 producer = KafkaProducer(bootstrap_servers=brokers)
 
