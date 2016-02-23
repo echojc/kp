@@ -3,6 +3,20 @@
 A straightforward CLI tool to produce data into Kafka. Intended as a counterpart
 to [fgeller/kt](https://github.com/fgeller/kt).
 
+## Installation
+
+The only dependency is
+[dpkp/kafka-python](https://github.com/dpkp/kafka-python), which you can install
+using `pip`:
+
+```
+$ sudo apt-get install python-pip
+$ sudo pip install kafka-python
+```
+
+With that installed, `kp` will just run.  I recommend putting `kp` somewhere on
+your `PATH` to make it easily accessible.
+
 ## Usage
 
 ```
@@ -49,16 +63,3 @@ Bulk load messages into a topic:
 $ cat messages | kp my-topic --json
 ```
 
-## Dependencies
-
-This depends on bleeding edge
-[dpkp/kafka-python](https://github.com/dpkp/kafka-python):
-
-```
-$ sudo apt-get install python-pip
-$ git clone https://github.com/dpkp/kafka-python
-$ pip install ./kafka-python
-```
-
-See http://kafka-python.readthedocs.org/en/master/install.html for further
-documentation.
