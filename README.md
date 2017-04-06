@@ -1,3 +1,13 @@
+## DEPRECATED
+
+**Recommended replacement:** https://github.com/fgeller/kt
+
+This tool was thrown together back when [kt](https://github.com/fgeller/kt) only had the ability to consume messages from a topic. kt's features have now grown to so much more that there really isn't any reason for this tool to exist. I highly recommend using kt for all your Kafka needs instead.
+
+Cheers!
+
+----
+
 # kp - a Kafka tool
 
 A straightforward CLI tool to produce data into Kafka. Intended as a counterpart
